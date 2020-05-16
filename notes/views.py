@@ -49,3 +49,14 @@ class DeleteNoteView(NoteCreatorMixin, DeleteView):
     """
     model = Note
     success_url = reverse_lazy('notes')
+
+class LoadTestNotesView(ListView):
+    """
+    List a User's Notes ordered by most recently edited. Results split into pages of 24 objects.
+    """
+    template_name = 'notes.html'
+    paginate_by = 24
+    model = Note
+
+    def get_queryset(self):
+        return Note.objects.all().order_by('-last_edited')
